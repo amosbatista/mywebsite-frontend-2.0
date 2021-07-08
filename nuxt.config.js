@@ -1,5 +1,20 @@
-module.exports = {
-  env: {
-    BLOG_URL: process.env.BLOG_URL || 'http://amosbatista-wordpress-com.umbler.net/index.php/wp-json/wp/v2'
-  }
+require('dotenv').config()
+
+export default {
+  modules: [
+    // Simple usage
+    '@nuxtjs/dotenv',
+
+    // With options
+    ['@nuxtjs/dotenv', { /* module options */ }],
+ ],
+ serverMiddleware: [
+    // Will register redirect-ssl npm package
+    'redirect-ssl'
+  ],
+  plugins: [
+    {
+      src: '~/plugins/infinite-scroll.js', mode: 'client'
+    }
+  ]
 }

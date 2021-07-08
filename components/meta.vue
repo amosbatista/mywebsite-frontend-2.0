@@ -1,4 +1,5 @@
 <script>
+
 	export default {
 		props: [
 			'metadata'
@@ -30,39 +31,40 @@
 					twitter: "summary_large_image"
 				}
 			}
-
 			return {
 				title: this.metadata.title,
 				titleTemplate: '%s | amosBatista.com',
 				meta: [
+	      			{ name: 'viewport', content: "width=device-width, user-scalable=no"},
+
 	      			{ property: 'fb:app_id', content: "212560042661168"},
 	      			{ property: 'og:title', content: this.metadata.title},
 	      			{ property: 'og:description', content: this.metadata.description},
 	      			{
 	      				property: 'og:url',
-	      				content: 'http://amosbatista.com' + this.metadata.url
+	      				content: 'https://amosbatista.com' + this.metadata.url
 	      			},
 	      			{
 	      				property: 'og:image',
-	      				content: 'http://amosbatista.com/' + this.metadata.thumbnail
+	      				content: this.metadata.thumbnail
 	      			},
 	      			{
 	      				property: 'og:type', content: this.metadata.detailTypes.og
 	      			},
 
 	      			/* Twitter */
-	      			{ property: 'twitter:title', content: this.metadata.title},
-	      			{ property: 'twitter:description', content: this.metadata.description},
+	      			{ name: 'twitter:title', content: this.metadata.title},
+	      			{ name: 'twitter:description', content: this.metadata.description},
 	      			{
-	      				property: 'twitter:url',
-	      				content: 'http://amosbatista.com' + this.metadata.url
+	      				name: 'twitter:url',
+	      				content: 'https://amosbatista.com' + this.metadata.url
 	      			},
 	      			{
-	      				property: 'twitter:image',
-	      				content: 'http://amosbatista.com/' + this.metadata.thumbnail
+	      				name: 'twitter:image',
+	      				content: this.metadata.thumbnail
 	      			},
 	      			{
-	      				property: 'twitter:type', content: this.metadata.detailTypes.twitter
+	      				name: 'twitter:type', content: this.metadata.detailTypes.twitter
 	      			}
 				]
 			}
@@ -72,6 +74,7 @@
 </script>
 
 <template>
-	<div></div>
+	<div>
+	</div>
 </template>
 

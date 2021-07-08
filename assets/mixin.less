@@ -1,5 +1,5 @@
 .shadow(@heigth: 1px){
-	box-shadow: 0px @heigth calc(@heigth+3px) calc(@heigth - 1px) @color-box-shadow;
+	box-shadow: 0px @heigth 3px 1px @color-box-shadow;
 }
 
 .transiction(@tempo: 0.5s){
@@ -12,4 +12,19 @@
     background: -webkit-linear-gradient(top, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.9) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.9) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40000000', endColorstr='#e6000000',GradientType=0 ); /* IE6-9 */
+}
+
+
+.boxSizingSetToBorder(){
+	-moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
+     box-sizing: border-box; 
+}
+
+.borda(@CorBorda, @borda: 1px){
+    border: @borda solid @CorBorda;
+}
+
+.borda-radius(@radius: 3px){
+    border-radius: @radius;
 }

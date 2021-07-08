@@ -1,20 +1,34 @@
 {
-  "name": "my-app",
+  "name": "amosbatista.com",
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
     "prod": "HOST=0.0.0.0 PORT=3000 nuxt start",
     "start": "npm run build && npm run prod",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "test": "./node_modules/mocha/bin/mocha --recursive --require babel-register --reporter spec || exit 0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "@nuxtjs/dotenv": "^1.3.0",
+    "axios": "^0.19.0",
     "install": "^0.11.0",
-    "less": "^3.0.1",
+    "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "moment": "^2.24.0",
     "node-less": "^1.0.0",
-    "npm": "^5.8.0",
-    "nuxt": "^1.4.0",
-    "sanitize-html": "^1.18.2"
+    "npm": "^6.13.2",
+    "nuxt": "^2.8.1",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "redirect-ssl": "^1.4.1",
+    "sanitize-html": "^1.18.2",
+    "vue-debounce": "^2.2.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-register": "^6.26.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1",
+    "sinon": "^7.2.2"
   }
 }

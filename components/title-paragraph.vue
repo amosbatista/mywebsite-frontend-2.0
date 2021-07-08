@@ -1,24 +1,31 @@
 <script>
 
-    export default {
+  export default {
 
-        data: function () {
-            return {
-                whiteColorClass: this.isColorReverted ? ' white-title' : ''
-            }
-        },
+    data: function () {
+      return {
+        whiteColorClass: this.isColorReverted ? ' white-title' : '',
+        fontSizeClass: '' 
+      }
+    },
 
-        props: ['content', 'isColorReverted']
+    props: {
+      content: String,
+      isColorReverted: Boolean
+    },
+
+    created: function () {
     }
+  }
 
 </script>
 
 
-<template>
+<template lang="pug">
 
-    <div class="title-paragraph">
-        <h2 :class="'title-paragraph-h' + whiteColorClass">{{content}}</h2>
-    </div>
+  .title-paragraph.title
+    h2(:class="'title-paragraph-h' + whiteColorClass")
+      |{{content}}
 
 </template>
 
@@ -33,16 +40,14 @@
         justify-content: center;
         flex-direction: column;
         height: 100%;
-        width: 100%;
-        padding-left: 20px;
+        padding: 30px 0 0 0;
 
         .title-paragraph-h{
             font-family: @title-font;
-            text-transform: uppercase;
             margin: 0;
             line-height: 1;
             color: @color-primary;
-            font-size: 200%;
+            overflow-wrap: break-word;
         }
 
         .white-title{

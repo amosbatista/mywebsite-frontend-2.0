@@ -30,14 +30,14 @@
     @import "../assets/variables.less";
 
     .topic{
-        /*width: 100%;*/
+        width: 90%;
         margin: 0 0 10px 0;
         padding: 10px;
         display: inline-block;
 
         .title{
             font-family: @title-font;
-            text-transform: uppercase;
+            text-transform: lowercase;
             color: @color-primary-light;
             padding-left: 20px;
         }
@@ -46,7 +46,7 @@
             margin: 0;
         }
 
-        @media (min-width: 500px){
+        @media (min-width: 768px){
 
             .title{
                 float: left;

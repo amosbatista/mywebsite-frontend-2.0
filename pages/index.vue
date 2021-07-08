@@ -1,97 +1,189 @@
-,<template>
-	
-	<div class="container">
+<script>
+
+  import vueMeta from '../components/meta.vue'
+  import linkStyle from '../components/external-link-style.vue'
+  import facebookApp from '../components/facebook-app.vue'
+  
+  import homeService from '../cms/homeService'
+  import httpService from '../requests/http'
+
+  export default {
+
+    data () { 
+      return {
+        page: 1,
+        isLoadingContent: false,
+        isOnEndOfStream: false,
+      }
+    },
+    methods: {
+      loadMore: async function() {
+        if(this.isOnEndOfStream) {
+          return;
+        }
+
+        this.isLoadingContent = true;
+        this.page++;
         
-        <layout 
-            :links="links" 
-            :meta="meta"
-        >
+        const newContent = await homeService(httpService, this.page);
 
-            <h1 class="title" slot="home-header">
-                <span class="comment-chars">
-                    //
-                </span>
-                Amós Batista
-            </h1>
+        if(newContent.length <= 0){
+          this.isOnEndOfStream = true;
+          this.page--;
+        }
+        else{
+          this.posts = this.posts.concat( newContent);
+        }
 
-            <div class="animation" slot="home-outro">
-                <animation />
-            </div>
-        </layout>
-    </div>
+        this.isLoadingContent = false;
+      }
+    },
+    components: { 
+      vueMeta,
+      facebookApp, 
+      linkStyle,
+    },
+
+    async asyncData () {
+      const posts = await homeService(httpService, 1)
+
+      return {
+        meta: {
+          title: "Home",
+          description: "Site pessoal.",
+          thumbnail: "https://amosbatista.com/thumbnails/home.jpg",
+          url: ``,
+          type: "home"
+        },
+        posts,
+      }
+    }
+  }
+
+</script>
+
+<template lang="pug">
+
+  .home-page
+
+    vue-meta(:metadata="meta")
+    facebook-app
+    link-style
+
+    .header
+      a.home-link.fluid-title(href="https://amosbatista.com")
+        |amosbatista.com
+      a.censurador-link.fluid-title(href="https://amosbatista.com/censurador")
+        |Censure minha música
+
+    .container
+
+      .main
+        .post(v-for="post in posts" v-bind:key="post.id")
+          a.title(:href="post.url")
+            |{{post.title}}
+          .content.text-from-blog(v-html="post.content")
+      
+      .scroller(v-infinite-scroll="loadMore" infinite-scroll-disabled="isLoadingContent" infinite-scroll-distance="500")
+        p.loading-icon.small-blink(v-if="isLoadingContent")
+          i.fa.fa-terminal
+        p.stream-end-message(v-if="isOnEndOfStream")
+          | Você leu todo o conteúdo disponível nesta página. Muito obrigado pelo seu interesse, isto significa muito para mim. 
+          br
+          |Confira outras páginas para mais conteúdo.
+
+
 </template>
 
-<script>
-	import post from '../components/post-title.vue'
-    import box from '../components/box.vue'
-    import layout from '../layout_vue/6colLayout.vue'
-    import animation from '../components/animatedBg_linesToCenter.vue'
-
-	export default {
-	  data: () => {
-	  	return {
-            meta: {
-                title: "Home",
-                description: "Site pessoal, de projetos e portfólios.",
-                thumbnail: "thumbnails/home.jpg",
-                url: "",
-                type: "home"
-            },
-	  		links: [
-                /*{
-                    title: "Sobre",
-                    description: "",
-                    url: "/about"
-                },*/
-                {
-                    title: "Blog",
-                    description: "",
-                    url: "/blog"
-                },
-               	{
-                	title: "Portfolio",
-                    description: "",
-                    url: "/portfolio"
-               	},
-                /*{
-                    title: "Galeria",
-                    description: "",
-                    url: "/gallery"
-                }*/
-            ]
-        }
-	  },
-	  components: {
-		post, box, layout, animation
-      }
-	}
-</script>
 
 
 <style lang="less">
+  @import '../assets/generic.less';
+  @import '../assets/variables.less';
+  @import '../assets/mixin.less';
+  @import '../assets/objects.less';
+  @import '../assets/base.less';
 
-    @import '../assets/variables.less';
-    @import '../assets/mixin.less';
-    @import '../assets/generic.less';
-    @import '../assets/base.less';
-    @import '../assets/objects.less';
+  .header {
+    background-color: @color-base-clear;
+    padding: 15px 10px 5px;
+    font-family: @title-font;
+    position: fixed;
+    width: 100%;
+  }
 
-    .title{
-        font-family: @title-font;
-        text-transform: uppercase;
-        margin: 0;
-        line-height: 1;
-        color: @color-primary;
-        font-size: 200%;
+  .fluid-title:after {
+    content: "■";
+    margin: 0 8px;
+  }
+  .fluid-title:last-child:after {
+    content: "";
+  }
+  .censurador-link {
+    font-size: 100%;
+    color: @color-primary;
+  }
+
+  .home-link {
+    font-size: 150%;
+    color: @color-primary;
+  }
+
+  .scroller {
+    min-height: 100px;
+
+    .loading-icon {
+      text-align: center;
+      font-size: 300%;
+      color: @color-secundary;
     }
 
-    .comment-chars{
+    .stream-end-message {
+      text-align: center;
+      font-size: 150%;
+      color: @color-secundary;
+      font-family: @base-font;
+      font-weight: @base-font-weigh-base;
+    }
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    background-color: @color-base-clear;
+    padding-top: 15px;
+
+    .post {
+      margin: 40px 0 0;
+      padding: 10px;
+      background-color: @color-base-dark;
+      
+      .title {
+        font-size: 350%;
         color: @color-secundary;
+        font-family: @base-font;
+        font-weight: @base-font-weigh-base;
+      }
+
+      .content {
+        color: @color-terciary;
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .censurador-link {
+      font-size: 150%;
     }
 
-    .animation{
-        width: 100%;
-        height: 100%;
+    .home-link {
+      font-size: 250%;
     }
+
+    .main {
+      padding-top: 40px;
+    }
+  }
+
 
 </style>
